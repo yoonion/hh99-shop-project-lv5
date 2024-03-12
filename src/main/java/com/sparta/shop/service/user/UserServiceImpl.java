@@ -9,15 +9,18 @@ import com.sparta.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public SignUpResponseDto signup(SignUpRequestDto requestDto) {
         // 회원 권한 가져오기
         UserRoleEnum role = UserRoleEnum.getRoleByString(requestDto.getRole());
