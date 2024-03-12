@@ -22,6 +22,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public SignUpResponseDto signup(SignUpRequestDto requestDto) {
+        String email = requestDto.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("중복된 이메일 입니다.");
+        }
+
         // 회원 권한 가져오기
         UserRoleEnum role = UserRoleEnum.getRoleByString(requestDto.getRole());
 
