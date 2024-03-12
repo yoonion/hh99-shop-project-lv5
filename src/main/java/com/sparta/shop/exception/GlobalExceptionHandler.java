@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleAccessDeniedExceptions(AccessDeniedException ex) {
         log.info("AccessDeniedException = {}", ex.getMessage());
         return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+                .status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponseDto(ex.getMessage()));
     }
 

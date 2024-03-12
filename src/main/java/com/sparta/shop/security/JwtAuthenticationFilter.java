@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.shop.dto.user.LoginRequestDto;
 import com.sparta.shop.entity.user.UserRoleEnum;
 import com.sparta.shop.jwt.JwtUtil;
+import com.sparta.shop.security.util.AuthResponseUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +28,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // email, password를 통해 인증 토큰 생성 후 -> AuthenticationProviderManager 에게 위임
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        log.info("JwtAuthenticationFilter 진입");
         try {
             LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
@@ -53,14 +55,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.createToken(username, role);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
 
-        jwtUtil.AuthResultResponseBody(response, HttpServletResponse.SC_OK, "로그인 성공");
+        AuthResponseUtil.authResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "로그인 성공");
     }
 
     // 인증 실패시 호출 핸들러
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         log.info("JWT 로그인 실패");
-        jwtUtil.AuthResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "로그인 실패. 다시 로그인 해주세요.");
+        AuthResponseUtil.authResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "로그인 실패. 다시 로그인 해주세요.");
     }
 
 }

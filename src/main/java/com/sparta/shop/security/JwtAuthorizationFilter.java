@@ -36,7 +36,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");
-                jwtUtil.AuthResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 인증 입니다. 다시 로그인 해주세요.");
                 return;
             }
 
@@ -50,6 +49,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
+        log.info("JWT 검증 및 인가 시도 종료");
         filterChain.doFilter(request, response);
     }
 

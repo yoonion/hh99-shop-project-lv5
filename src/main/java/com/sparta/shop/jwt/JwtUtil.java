@@ -1,19 +1,15 @@
 package com.sparta.shop.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.shop.entity.user.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -64,37 +60,28 @@ public class JwtUtil {
         return null;
     }
 
-    // 토큰 검증
+    // 토큰 검증 - 예외 발생시 JwtExceptionFilter에서 예외 처리가 진행된다. 시큐리티 필터 설정에 등록 되어있음.
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
+            throw new JwtException("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT token, 만료된 JWT token 입니다.");
+            throw new JwtException("Expired JWT token, 만료된 JWT token 입니다.");
         } catch (UnsupportedJwtException e) {
             log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
+            throw new JwtException("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
         } catch (IllegalArgumentException e) {
             log.error("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
+            throw new JwtException("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
         }
-        return false;
     }
 
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-    }
-
-    // JWT 인증 및 인가 실패시 response 메시지 filter -> 클라이언트에게 반환 - jwt 인증 / 인가 에서만 사용
-    public void AuthResultResponseBody(HttpServletResponse response, int httpServletResponseCode, String resultMessage) throws IOException {
-        response.setStatus(httpServletResponseCode);
-        response.setContentType("application/json;charset=UTF-8");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResponse = objectMapper.writeValueAsString(new AuthResultResponseDto(httpServletResponseCode, resultMessage));
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse);
-        writer.flush();
     }
 }
