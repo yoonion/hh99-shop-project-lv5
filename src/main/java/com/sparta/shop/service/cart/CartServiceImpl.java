@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +29,14 @@ public class CartServiceImpl implements CartService {
         Product findProduct = productRepository.findById(requestDto.getProductId())
                 .orElseThrow(() -> new NoSuchElementException("해당 상품이 존재하지 않습니다."));
 
-        // TODO: 장바구니에 이미 같은 상품이 존재하면, 새로 추가하지 않고 정보를 업데이트 해주는 방식 추가 필요
+        // 장바구니에 이미 같은 상품이 존재하면, 새로 추가하지 않고 수량 정보를 업데이트 해주는 방식
+        Optional<Cart> findCart = cartRepository.findByProductIdAndUserId(requestDto.getProductId(), user.getId());
+        if (findCart.isPresent()) {
+            findCart.get().addQuantity(requestDto.getQuantity());
+            return new CartAddResponseDto(findCart.get());
+        }
 
-
+        // 장바구니에 존재하지 않으면 새로 추가
         Cart cart = new Cart(requestDto, user, findProduct);
         cartRepository.save(cart);
 
