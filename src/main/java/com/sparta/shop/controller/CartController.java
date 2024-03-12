@@ -5,7 +5,6 @@ import com.sparta.shop.security.UserDetailsImpl;
 import com.sparta.shop.service.cart.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class CartController {
     @PatchMapping("/products/{productId}")
     public ResponseEntity<CartInfoResponseDto> updateCartQuantity(
             @PathVariable Long productId,
-            @RequestBody CartUpdateRequestDto requestDto,
+            @RequestBody @Valid CartUpdateRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         CartInfoResponseDto responseDto = cartService.updateCartQuantity(requestDto, productId, userDetails.getUser());
