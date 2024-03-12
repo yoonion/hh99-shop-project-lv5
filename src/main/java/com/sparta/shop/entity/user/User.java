@@ -1,5 +1,6 @@
 package com.sparta.shop.entity.user;
 
+import com.sparta.shop.dto.user.SignUpRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserGenderEnum gender;
 
     @Column(nullable = false)
@@ -29,5 +31,15 @@ public class User {
     private String address;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
+
+    public User(String encodedPassword, UserGenderEnum gender, UserRoleEnum role, SignUpRequestDto requestDto) {
+        this.email = requestDto.getEmail();
+        this.password = encodedPassword;
+        this.gender = gender;
+        this.phoneNumber = requestDto.getPhoneNumber();
+        this.address = requestDto.getAddress();
+        this.role = role;
+    }
 }
