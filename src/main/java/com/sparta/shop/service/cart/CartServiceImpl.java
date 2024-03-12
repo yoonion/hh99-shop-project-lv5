@@ -28,7 +28,8 @@ public class CartServiceImpl implements CartService {
         Product findProduct = productRepository.findById(requestDto.getProductId())
                 .orElseThrow(() -> new NoSuchElementException("해당 상품이 존재하지 않습니다."));
 
-        // TODO: 장바구니에 이미 같은 상품이 존재하면, 개수를 업데이트 해주는 방식 추가 필요
+        // TODO: 장바구니에 이미 같은 상품이 존재하면, 새로 추가하지 않고 정보를 업데이트 해주는 방식 추가 필요
+
 
         Cart cart = new Cart(requestDto, user, findProduct);
         cartRepository.save(cart);
@@ -62,5 +63,12 @@ public class CartServiceImpl implements CartService {
         findCart.updateQuantity(requestDto.getQuantity());
 
         return new CartInfoResponseDto(findCart);
+    }
+
+    @Override
+    @Transactional
+    public CartDeleteResponseDto deleteCart(Long productId, User user) {
+        cartRepository.deleteByProductIdAndUserId(productId, user.getId());
+        return new CartDeleteResponseDto(productId);
     }
 }

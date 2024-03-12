@@ -10,4 +10,6 @@ public interface CartService {
     CartInfoListResponseDto getCartProducts(User user);
 
     CartInfoResponseDto updateCartQuantity(CartUpdateRequestDto requestDto, Long productId, User user);
+
+    CartDeleteResponseDto deleteCart(Long productId, User user);
 }
