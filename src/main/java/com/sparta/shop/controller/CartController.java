@@ -1,8 +1,6 @@
 package com.sparta.shop.controller;
 
-import com.sparta.shop.dto.cart.CartAddRequestDto;
-import com.sparta.shop.dto.cart.CartAddResponseDto;
-import com.sparta.shop.dto.cart.CartInfoListResponseDto;
+import com.sparta.shop.dto.cart.*;
 import com.sparta.shop.security.UserDetailsImpl;
 import com.sparta.shop.service.cart.CartService;
 import jakarta.validation.Valid;
@@ -31,6 +29,17 @@ public class CartController {
     @GetMapping
     public ResponseEntity<CartInfoListResponseDto> getCartProducts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         CartInfoListResponseDto responseDto = cartService.getCartProducts(userDetails.getUser());
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PatchMapping("/products/{productId}")
+    public ResponseEntity<?> updateCartQuantity(
+            @PathVariable Long productId,
+            @RequestBody CartUpdateRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        CartInfoResponseDto responseDto = cartService.updateCartQuantity(requestDto, productId, userDetails.getUser());
 
         return ResponseEntity.ok(responseDto);
     }
