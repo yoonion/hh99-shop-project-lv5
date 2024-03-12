@@ -35,7 +35,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         }
     }
 
-    public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, Throwable ex) throws IOException {
+    private void setErrorResponse(HttpServletRequest req, HttpServletResponse res, Throwable ex) throws IOException {
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
