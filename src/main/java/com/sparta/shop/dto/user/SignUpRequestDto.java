@@ -1,7 +1,5 @@
 package com.sparta.shop.dto.user;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -9,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SignUpRequestDto {
 
     private static final String PASSWORD_INVALID_MESSAGE = "비밀번호는 8자 이상, 15자 이하로 입력하여야 하며, 알파벳 대소문자, 숫자, 특수문자를 포함하여야 합니다.";
