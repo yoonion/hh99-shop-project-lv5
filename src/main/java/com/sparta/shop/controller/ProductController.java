@@ -9,12 +9,9 @@ import com.sparta.shop.service.product.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,18 +25,14 @@ public class ProductController {
     public ResponseEntity<ProductRegisterResponseDto> registerProduct(@RequestBody @Valid ProductRegisterRequestDto requestDto) {
         ProductRegisterResponseDto responseDto = productService.registerProduct(requestDto);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductInfoResponseDto> getProduct(@PathVariable Long productId) {
         ProductInfoResponseDto responseDto = productService.getProduct(productId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
@@ -51,8 +44,6 @@ public class ProductController {
     ) {
         Page<ProductInfoListResponseDto> responseDtos = productService.getProducts(page - 1, size, sortBy, isAsc);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(responseDtos);
+        return ResponseEntity.ok(responseDtos);
     }
 }

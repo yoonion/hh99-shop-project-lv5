@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
 
-         User user = new User(encodedPassword, gender, role, requestDto);
+        User user = new User(encodedPassword, gender, role, requestDto);
         userRepository.save(user);
 
         return new SignUpResponseDto(user);

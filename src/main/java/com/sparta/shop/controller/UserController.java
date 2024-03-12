@@ -22,9 +22,6 @@ public class UserController {
     public ResponseEntity<?> signup(@RequestBody SignUpRequestDto requestDto) {
         SignUpResponseDto responseDto = userService.signup(requestDto);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
-
 }
