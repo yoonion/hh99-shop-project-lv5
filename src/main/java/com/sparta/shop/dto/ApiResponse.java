@@ -23,6 +23,12 @@ public class ApiResponse<T> {
     private String message;
     private T data;
 
+    private ApiResponse(String status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
     public static <T> ApiResponse<T> createSuccess(T data) {
         return new ApiResponse<>(SUCCESS_STATUS, null, data);
     }
@@ -49,11 +55,5 @@ public class ApiResponse<T> {
     // 예외 발생으로 API 호출 실패시 반환
     public static ApiResponse<?> createError(String message) {
         return new ApiResponse<>(ERROR_STATUS, message, null);
-    }
-
-    private ApiResponse(String status, String message, T data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
     }
 }

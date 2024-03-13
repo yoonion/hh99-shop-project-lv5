@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class AuthResultResponseDto {
-    private final int statusCode;
+    private final int status;
     private final String message;
 }
