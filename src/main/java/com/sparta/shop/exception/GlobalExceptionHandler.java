@@ -1,6 +1,7 @@
 package com.sparta.shop.exception;
 
 
+import com.sparta.shop.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,47 +20,44 @@ public class GlobalExceptionHandler {
 
     // bean validation exception
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         log.info("MethodArgumentNotValidException = {}", ex.getMessage());
-        BindingResult bindingResult = ex.getBindingResult();
-        FieldError fieldError = bindingResult.getFieldError();
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(fieldError.getDefaultMessage()));
+                .body(ApiResponse.createFail(ex.getBindingResult()));
     }
 
     // 권한 없음
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleAccessDeniedExceptions(AccessDeniedException ex) {
+    public ResponseEntity<ApiResponse<?>> handleAccessDeniedExceptions(AccessDeniedException ex) {
         log.info("AccessDeniedException = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponseDto(ex.getMessage()));
+                .body(ApiResponse.createError(ex.getMessage()));
     }
 
     // 리소스 없음
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleNoSuchElementExceptions(NoSuchElementException ex) {
+    public ResponseEntity<ApiResponse<?>> handleNoSuchElementExceptions(NoSuchElementException ex) {
         log.info("NoSuchElementException = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponseDto(ex.getMessage()));
+                .body(ApiResponse.createError(ex.getMessage()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleIllegalArgumentExceptions(IllegalArgumentException ex) {
+    public ResponseEntity<ApiResponse<?>> handleIllegalArgumentExceptions(IllegalArgumentException ex) {
         log.info("IllegalArgumentExceptionHandler = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(ex.getMessage()));
+                .body(ApiResponse.createError(ex.getMessage()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleExceptions(Exception ex) {
+    public ResponseEntity<ApiResponse<?>> handleExceptions(Exception ex) {
         log.info("Exception = {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponseDto("INTERNAL-SERVER-ERROR"));
+                .body(ApiResponse.createError("INTERNAL-SERVER-ERROR"));
     }
 }

@@ -1,5 +1,6 @@
 package com.sparta.shop.controller;
 
+import com.sparta.shop.dto.ApiResponse;
 import com.sparta.shop.dto.product.*;
 import com.sparta.shop.entity.user.UserRoleEnum;
 import com.sparta.shop.service.product.ProductService;
@@ -29,10 +30,10 @@ public class ProductController {
     @Operation(summary = "상품 추가", description = "상품 추가 입니다. ADMIN 권한만 등록이 가능합니다.")
     @Secured(UserRoleEnum.Authority.ADMIN)
     @PostMapping
-    public ResponseEntity<ProductRegisterResponseDto> registerProduct(@ModelAttribute @Valid ProductRegisterRequestDto requestDto) throws IOException {
+    public ApiResponse<ProductRegisterResponseDto> registerProduct(@ModelAttribute @Valid ProductRegisterRequestDto requestDto) throws IOException {
         ProductRegisterResponseDto responseDto = productService.registerProduct(requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ApiResponse.createSuccess(responseDto);
     }
 
     /*@PostMapping(value = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -43,13 +44,13 @@ public class ProductController {
 
     @Operation(summary = "선택 상품 조회", description = "선택 상품 조회입니다.")
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductInfoResponseDto> getProduct(
+    public ApiResponse<ProductInfoResponseDto> getProduct(
             @Parameter(required = true, description = "상품 고유번호")
             @PathVariable Long productId
     ) {
         ProductInfoResponseDto responseDto = productService.getProduct(productId);
 
-        return ResponseEntity.ok(responseDto);
+        return ApiResponse.createSuccess(responseDto);
     }
 
     @Operation(summary = "전체 상품 조회(페이징)", description = "전체 상품 조회입니다. 페이징이 가능합니다.")
@@ -60,7 +61,7 @@ public class ProductController {
             @Parameter(name = "isAsc", description = "true = 오름차순, false = 내림차순")
     })
     @GetMapping
-    public ResponseEntity<Page<ProductInfoListResponseDto>> getProducts(
+    public ApiResponse<Page<ProductInfoListResponseDto>> getProducts(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam String sortBy,
@@ -68,6 +69,6 @@ public class ProductController {
     ) {
         Page<ProductInfoListResponseDto> responseDtos = productService.getProducts(page - 1, size, sortBy, isAsc);
 
-        return ResponseEntity.ok(responseDtos);
+        return ApiResponse.createSuccess(responseDtos);
     }
 }
