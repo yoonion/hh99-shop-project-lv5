@@ -5,11 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class ProductRegisterRequestDto {
+public class ImageTestDto {
 
     @Schema(description = "상품 이름", defaultValue = "무지 후드티")
     @NotBlank
@@ -31,6 +32,6 @@ public class ProductRegisterRequestDto {
     @NotBlank
     private String category;
 
-    @Schema(description = "상품 이미지")
+    @Schema(description = "상품 카테고리", defaultValue = "top", allowableValues = {"top", "pants"})
     private MultipartFile image;
 }

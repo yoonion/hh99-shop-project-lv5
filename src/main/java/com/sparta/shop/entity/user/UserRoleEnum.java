@@ -20,7 +20,7 @@ public enum UserRoleEnum {
         return Arrays.stream(UserRoleEnum.values())
                 .filter(userRoleEnum -> userRoleEnum.authority.equals(upperText))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 권한이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(text + " : 해당 권한이 존재하지 않습니다."));
     }
 
     public static class Authority {

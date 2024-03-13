@@ -10,7 +10,7 @@ public enum UserGenderEnum {
             case "woman":
                 return WOMEN;
             default:
-                throw new IllegalArgumentException("해당 성별이 존재하지 않습니다.");
+                throw new IllegalArgumentException(text + " : 해당 성별이 존재하지 않습니다.");
         }
     }
 }

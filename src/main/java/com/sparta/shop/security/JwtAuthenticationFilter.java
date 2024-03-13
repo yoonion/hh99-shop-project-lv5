@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
-    // 인증 성공시 호출 핸들러
+    // 로그인 성공시 호출 핸들러
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         log.info("JWT 로그인 성공");
@@ -55,10 +55,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.createToken(username, role);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
 
-        AuthResponseUtil.authResultResponseBody(response, HttpServletResponse.SC_UNAUTHORIZED, "로그인 성공");
+        AuthResponseUtil.authResultResponseBody(response, HttpServletResponse.SC_OK, "로그인 성공");
     }
 
-    // 인증 실패시 호출 핸들러
+    // 로그인 실패시 호출 핸들러
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         log.info("JWT 로그인 실패");

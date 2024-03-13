@@ -1,9 +1,7 @@
 package com.sparta.shop.service.product;
 
-import com.sparta.shop.dto.product.ProductInfoListResponseDto;
-import com.sparta.shop.dto.product.ProductInfoResponseDto;
-import com.sparta.shop.dto.product.ProductRegisterRequestDto;
-import com.sparta.shop.dto.product.ProductRegisterResponseDto;
+import com.sparta.shop.aws.S3Uploader;
+import com.sparta.shop.dto.product.*;
 import com.sparta.shop.entity.product.Product;
 import com.sparta.shop.entity.product.ProductCategoryEnum;
 import com.sparta.shop.repository.ProductRepository;
@@ -14,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @Service
@@ -23,17 +23,36 @@ import java.util.NoSuchElementException;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final S3Uploader s3Uploader;
 
     @Override
     @Transactional
-    public ProductRegisterResponseDto registerProduct(ProductRegisterRequestDto requestDto) {
+    public ProductRegisterResponseDto registerProduct(ProductRegisterRequestDto requestDto) throws IOException {
         ProductCategoryEnum category = ProductCategoryEnum.getProductCategoryByString(requestDto.getCategory());
+        MultipartFile image = requestDto.getImage();
+        if (image.isEmpty()) {
+            throw new IllegalArgumentException("이미지가 없습니다. 이미지를 함께 업로드 해주세요.");
+        }
 
-        Product product = new Product(category, requestDto);
+        String savedImageUrl = s3Uploader.upload(image,"images");
+        Product product = new Product(category, savedImageUrl, requestDto);
         productRepository.save(product);
 
         return new ProductRegisterResponseDto(product);
     }
+
+    /*@Override
+    @Transactional
+    public void registerProductV2(ImageTestDto imageTestDto) throws IOException {
+        ProductCategoryEnum category = ProductCategoryEnum.getProductCategoryByString(imageTestDto.getCategory());
+        MultipartFile image = imageTestDto.getImage();
+
+        if (!image.isEmpty()) {
+            String savedImageUrl = s3Uploader.upload(image,"images");
+            Product product = new Product(category, savedImageUrl, imageTestDto);
+            productRepository.save(product);
+        }
+    }*/
 
     @Override
     public ProductInfoResponseDto getProduct(Long productId) {

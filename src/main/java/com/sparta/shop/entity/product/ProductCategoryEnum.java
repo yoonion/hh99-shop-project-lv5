@@ -13,7 +13,7 @@ public enum ProductCategoryEnum {
             case "pants":
                 return PANTS;
             default:
-                throw new IllegalArgumentException("해당 성별이 존재하지 않습니다.");
+                throw new IllegalArgumentException(text + " : 해당 카테고리가 존재하지 않습니다.");
         }
     }
 }

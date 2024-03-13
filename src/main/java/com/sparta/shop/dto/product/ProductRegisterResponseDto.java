@@ -11,6 +11,7 @@ public class ProductRegisterResponseDto {
     private final int quantity;
     private final String introduction;
     private final ProductCategoryEnum category;
+    private final String imageUrl;
 
     public ProductRegisterResponseDto(Product product) {
         this.name = product.getName();
@@ -18,5 +19,6 @@ public class ProductRegisterResponseDto {
         this.quantity = product.getQuantity();
         this.introduction = product.getIntroduction();
         this.category = product.getCategory();
+        this.imageUrl = product.getImageUrl();
     }
 }
