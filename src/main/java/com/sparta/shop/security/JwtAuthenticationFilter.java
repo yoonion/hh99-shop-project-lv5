@@ -23,6 +23,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/users/login");
+        super.setUsernameParameter("email");
     }
 
     // email, password를 통해 인증 토큰 생성 후 -> AuthenticationProviderManager 에게 위임
