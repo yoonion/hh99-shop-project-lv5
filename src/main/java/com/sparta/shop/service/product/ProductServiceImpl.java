@@ -41,19 +41,6 @@ public class ProductServiceImpl implements ProductService {
         return new ProductRegisterResponseDto(product);
     }
 
-    /*@Override
-    @Transactional
-    public void registerProductV2(ImageTestDto imageTestDto) throws IOException {
-        ProductCategoryEnum category = ProductCategoryEnum.getProductCategoryByString(imageTestDto.getCategory());
-        MultipartFile image = imageTestDto.getImage();
-
-        if (!image.isEmpty()) {
-            String savedImageUrl = s3Uploader.upload(image,"images");
-            Product product = new Product(category, savedImageUrl, imageTestDto);
-            productRepository.save(product);
-        }
-    }*/
-
     @Override
     public ProductInfoResponseDto getProduct(Long productId) {
         Product findProduct = productRepository.findById(productId)

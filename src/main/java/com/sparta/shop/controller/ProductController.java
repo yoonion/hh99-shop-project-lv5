@@ -1,7 +1,10 @@
 package com.sparta.shop.controller;
 
 import com.sparta.shop.dto.ApiResponse;
-import com.sparta.shop.dto.product.*;
+import com.sparta.shop.dto.product.ProductInfoListResponseDto;
+import com.sparta.shop.dto.product.ProductInfoResponseDto;
+import com.sparta.shop.dto.product.ProductRegisterRequestDto;
+import com.sparta.shop.dto.product.ProductRegisterResponseDto;
 import com.sparta.shop.entity.user.UserRoleEnum;
 import com.sparta.shop.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,11 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -35,12 +35,6 @@ public class ProductController {
 
         return ApiResponse.createSuccess(responseDto);
     }
-
-    /*@PostMapping(value = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadImageTest(@ModelAttribute ImageTestDto imageTestDto) throws IOException {
-        productService.registerProductV2(imageTestDto);
-        return null;
-    }*/
 
     @Operation(summary = "선택 상품 조회", description = "선택 상품 조회입니다.")
     @GetMapping("/{productId}")

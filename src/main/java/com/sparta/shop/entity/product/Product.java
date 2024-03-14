@@ -1,11 +1,9 @@
 package com.sparta.shop.entity.product;
 
-import com.sparta.shop.dto.product.ImageTestDto;
 import com.sparta.shop.dto.product.ProductRegisterRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @NoArgsConstructor

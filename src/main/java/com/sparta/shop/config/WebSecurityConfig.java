@@ -1,11 +1,11 @@
 package com.sparta.shop.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.shop.jwt.JwtUtil;
-import com.sparta.shop.security.*;
+import com.sparta.shop.security.JwtAuthenticationFilter;
+import com.sparta.shop.security.JwtAuthorizationFilter;
+import com.sparta.shop.security.JwtExceptionFilter;
 import com.sparta.shop.security.exception.CustomAccessDeniedHandler;
 import com.sparta.shop.security.exception.CustomAuthenticationEntryPoint;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +26,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @Configuration
 @EnableWebSecurity
