@@ -18,7 +18,7 @@
 - AWS EC2
 - AWS S3 (이미지 저장)
 
-### ERD - 
+### ERD - https://www.erdcloud.com/d/Yc6bFdnMRZHz3xfA6
 ![hh-99-erd](./docs/erd.png)
 
 ### API 명세서 (Postman)
