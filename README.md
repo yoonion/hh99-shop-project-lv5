@@ -19,7 +19,7 @@
 - AWS S3 (이미지 저장)
 
 ### ERD - 
-![hh-99-erd](./docs/ERD.png)
+![hh-99-erd](./docs/erd.png)
 
 ### API 명세서 (Postman)
 - Postman API Document 입니다.
