@@ -2,6 +2,7 @@ package com.sparta.shop.dto.product;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,5 +33,6 @@ public class ProductRegisterRequestDto {
     private String category;
 
     @Schema(description = "상품 이미지")
+    @NotNull
     private MultipartFile image;
 }
