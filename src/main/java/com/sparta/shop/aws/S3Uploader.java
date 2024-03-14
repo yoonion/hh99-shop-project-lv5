@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-@Slf4j
+@Slf4j(topic = "S3Uploader")
 @RequiredArgsConstructor
 @Service
 public class S3Uploader {
