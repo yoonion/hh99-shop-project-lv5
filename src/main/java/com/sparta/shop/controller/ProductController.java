@@ -29,7 +29,7 @@ public class ProductController {
 
     @Operation(summary = "상품 추가", description = "상품 추가 입니다. ADMIN 권한만 등록이 가능합니다.")
     @Secured(UserRoleEnum.Authority.ADMIN)
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     public ApiResponse<ProductRegisterResponseDto> registerProduct(@ModelAttribute @Valid ProductRegisterRequestDto requestDto) throws IOException {
         ProductRegisterResponseDto responseDto = productService.registerProduct(requestDto);
 
